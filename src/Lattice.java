@@ -3,22 +3,23 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Ellipse2D;
 
-class Lattice extends JPanel implements MouseListener, MouseMotionListener{
+class Lattice extends JPanel{
 
-    private Ellipse2D.Double controlPoint;
-    private Ellipse2D.Double points[][];
-    private int size;
+    Ellipse2D.Double controlPoint;
+    Ellipse2D.Double points[][];
+    int size;
     boolean draggingControlPoint = false;
     int pointI, pointJ;
+    boolean changeColor;
 
-    Lattice(int size){
+    Lattice(int size, MouseListener ML, MouseMotionListener MML){
 
         this.size = size;
         super.setPreferredSize(new Dimension(500, 500));
         super.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
 
-        super.addMouseListener(this);
-        super.addMouseMotionListener(this);
+        super.addMouseListener(ML);
+        super.addMouseMotionListener(MML);
 
         points = new Ellipse2D.Double[size + 1][size + 1];
 
@@ -41,66 +42,10 @@ class Lattice extends JPanel implements MouseListener, MouseMotionListener{
 
         for (int i = 0; i < size + 1; i++) {
             for (int j = 0; j < size + 1; j++) {
+
+                g2d.setColor(Color.BLACK);
                 g2d.fill(points[i][j]);
             }
         }
-
-//        g2d.fill(controlPoint);
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-
-        for (int i = 0; i < size + 1; i++) {
-            for (int j = 0; j < size + 1; j++) {
-
-                if (points[i][j].contains(e.getPoint())) {
-                    draggingControlPoint = true;
-
-                    pointI = i;
-                    pointJ = j;
-                }
-            }
-        }
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-
-        draggingControlPoint = false;
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-        int CPx, CPy;
-
-        if (draggingControlPoint){
-            CPx = e.getX();
-            CPy = e.getY();
-
-            controlPoint = new Ellipse2D.Double(CPx, CPy, 5, 5);
-            points[pointI][pointJ] = controlPoint;
-
-            repaint();
-        }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-
-    }
-    @Override
-    public void mouseExited(MouseEvent e) {
-
-    }
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
-    }
-    @Override
-    public void mouseClicked(MouseEvent e) {
-
     }
 }

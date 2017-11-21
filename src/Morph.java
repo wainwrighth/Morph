@@ -7,23 +7,20 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Ellipse2D;
 
-public class Morph extends JFrame implements ActionListener {
+public class Morph extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
 
     private Lattice startLattice, endLattice;
+    private int size = 10;
 
     private Morph(){
 
         super("Morph");
 
-        int size = 10;
-
         createMenu();
-        startLattice = new Lattice(size);
-        endLattice = new Lattice(size);
-
-        startLattice.setDoubleBuffered(true);
-        endLattice.setDoubleBuffered(true);
+        startLattice = new Lattice(size, this, this);
+        endLattice = new Lattice(size, this, this);
 
         Container c = getContentPane();
 
@@ -49,10 +46,90 @@ public class Morph extends JFrame implements ActionListener {
         newFile.setMnemonic('N');
         fileMenu.add(newFile);
 
+        fileMenu.addSeparator();
+
+        JMenuItem exitMorph = new JMenuItem("Exit");
+        exitMorph.setMnemonic('X');
+        exitMorph.addActionListener(this);
+        fileMenu.add(exitMorph);
+
         bar.add(fileMenu);
     }
 
     public void actionPerformed(ActionEvent e){
+
+        if (e.getActionCommand().equals("Exit")){ System.exit(0); }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+        for (int i = 0; i < size + 1; i++) {
+            for (int j = 0; j < size + 1; j++) {
+
+                if (startLattice.points[i][j].contains(e.getPoint())) {
+                    startLattice.draggingControlPoint = true;
+
+                    startLattice.pointI = i;
+                    startLattice.pointJ = j;
+                }
+
+                if (endLattice.points[i][j].contains(e.getPoint())) {
+                    endLattice.draggingControlPoint = true;
+
+                    endLattice.pointI = i;
+                    endLattice.pointJ = j;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+        startLattice.draggingControlPoint = false;
+        endLattice.draggingControlPoint = false;
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+        int CPx, CPy;
+        startLattice = (Lattice)e.getSource();
+        endLattice = (Lattice)e.getSource();
+
+        if (startLattice.draggingControlPoint){
+            CPx = e.getX();
+            CPy = e.getY();
+
+            startLattice.controlPoint = new Ellipse2D.Double(CPx, CPy, 5, 5);
+            startLattice.points[startLattice.pointI][startLattice.pointJ] = startLattice.controlPoint;
+        }
+
+        if (endLattice.draggingControlPoint){
+            CPx = e.getX();
+            CPy = e.getY();
+
+            endLattice.controlPoint = new Ellipse2D.Double(CPx, CPy, 5, 5);
+            endLattice.points[endLattice.pointI][endLattice.pointJ] = endLattice.controlPoint;
+        }
+        repaint();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
     }
 
