@@ -4,24 +4,34 @@
  * Project: Morph
  */
 
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class Morph extends JFrame implements ActionListener {
+
+    private Lattice startLattice, endLattice;
 
     private Morph(){
 
         super("Morph");
 
-        createMenu();
+        int size = 10;
 
-        setSize(500, 500);
+        createMenu();
+        startLattice = new Lattice(size);
+        endLattice = new Lattice(size);
+
+        startLattice.setDoubleBuffered(true);
+        endLattice.setDoubleBuffered(true);
+
+        Container c = getContentPane();
+
+        c.add(startLattice, BorderLayout.WEST);
+        c.add(endLattice, BorderLayout.EAST);
+
+        setSize(1010, 550);
+        setResizable(false);
         setVisible(true);
     }
 
