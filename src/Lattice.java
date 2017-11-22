@@ -1,16 +1,15 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 
 class Lattice extends JPanel{
 
-    Ellipse2D.Double controlPoint;
-    Ellipse2D.Double points[][];
-    int size;
+    ControlPoint controlPoint;
+    ControlPoint points[][];
+    private int size;
     boolean draggingControlPoint = false;
     int pointI, pointJ;
-    boolean changeColor;
 
     Lattice(int size, MouseListener ML, MouseMotionListener MML){
 
@@ -21,15 +20,15 @@ class Lattice extends JPanel{
         super.addMouseListener(ML);
         super.addMouseMotionListener(MML);
 
-        points = new Ellipse2D.Double[size + 1][size + 1];
+        points = new ControlPoint[size + 1][size + 1];
 
         for (int i = 0; i < size + 1; i++){
             for (int j = 0; j < size + 1; j++){
 
-                int x = i * size * 5;
-                int y = j * size * 5;
+                double x = i * size * 5;
+                double y = j * size * 5;
 
-                controlPoint = new Ellipse2D.Double(x, y, 5, 5);
+                controlPoint = new ControlPoint(x, y);
                 points[i][j] = controlPoint;
             }
         }
@@ -43,8 +42,21 @@ class Lattice extends JPanel{
         for (int i = 0; i < size + 1; i++) {
             for (int j = 0; j < size + 1; j++) {
 
-                g2d.setColor(Color.BLACK);
                 g2d.fill(points[i][j]);
+
+                if ((i + 1) < (size + 1)){
+                    g2d.draw(new Line2D.Double(points[i][j].x + 2.5, points[i][j].y + 2.5,
+                                               points[i+1][j].x + 2.5, points[i+1][j].y + 2.5));
+                }
+                if ((i + 1) < (size + 1) && (j + 1) < (size + 1)){
+                    g2d.draw(new Line2D.Double(points[i][j].x + 2.5, points[i][j].y + 2.5,
+                                               points[i+1][j+1].x + 2.5, points[i+1][j+1].y + 2.5));
+                }
+                if ((j + 1) < (size + 1)){
+                    g2d.draw(new Line2D.Double(points[i][j].x + 2.5, points[i][j].y + 2.5,
+                                               points[i][j+1].x + 2.5, points[i][j+1].y + 2.5));
+                }
+
             }
         }
     }

@@ -7,7 +7,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Ellipse2D;
 
 public class Morph extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
 
@@ -42,9 +41,13 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic('F');
 
-        JMenuItem newFile = new JMenuItem("New File");
-        newFile.setMnemonic('N');
-        fileMenu.add(newFile);
+        JMenuItem newStartFile = new JMenuItem("New Start Image");
+        newStartFile.setMnemonic('B');
+        fileMenu.add(newStartFile);
+
+        JMenuItem newEndFile = new JMenuItem("New End Image");
+        newEndFile.setMnemonic('E');
+        fileMenu.add(newEndFile);
 
         fileMenu.addSeparator();
 
@@ -53,12 +56,48 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
         exitMorph.addActionListener(this);
         fileMenu.add(exitMorph);
 
+        JMenu morph = new JMenu("Morph");
+        fileMenu.setMnemonic('M');
+
+        JMenuItem newMorph = new JMenuItem("Start Morph");
+        newMorph.setMnemonic('S');
+        newMorph.addActionListener(this);
+        morph.add(newMorph);
+
         bar.add(fileMenu);
+        bar.add(morph);
     }
 
     public void actionPerformed(ActionEvent e){
 
-        if (e.getActionCommand().equals("Exit")){ System.exit(0); }
+        if (e.getActionCommand().equals("Exit")) { System.exit(0); }
+        else if (e.getActionCommand().equals("Start Morph")) { showAnimateFrame(); }
+    }
+
+    private void showAnimateFrame(){
+
+        JFrame animateFrame = new JFrame("Animation");
+
+        Timer animateTimer;
+
+        double t = 0.50;
+        Animation animate = new Animation(startLattice.points, endLattice.points, t, size);
+
+        ActionListener showAnimation = e -> {
+
+            for (int i = 0; i < 1000; i++) {
+                double newT = 0.6;
+                animate.animate(startLattice.points, endLattice.points, newT);
+            }
+            repaint();
+        };
+        animateTimer = new Timer(5, showAnimation);
+        animateTimer.setRepeats(true);
+        animateTimer.start();
+
+        animateFrame.add(animate);
+        animateFrame.setSize(500, 500);
+        animateFrame.setVisible(true);
     }
 
     @Override
@@ -102,7 +141,7 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
             CPx = e.getX();
             CPy = e.getY();
 
-            startLattice.controlPoint = new Ellipse2D.Double(CPx, CPy, 5, 5);
+            startLattice.controlPoint = new ControlPoint(CPx, CPy);
             startLattice.points[startLattice.pointI][startLattice.pointJ] = startLattice.controlPoint;
         }
 
@@ -110,9 +149,10 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
             CPx = e.getX();
             CPy = e.getY();
 
-            endLattice.controlPoint = new Ellipse2D.Double(CPx, CPy, 5, 5);
+            endLattice.controlPoint = new ControlPoint(CPx, CPy);
             endLattice.points[endLattice.pointI][endLattice.pointJ] = endLattice.controlPoint;
         }
+
         repaint();
     }
 
