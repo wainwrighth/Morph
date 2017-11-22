@@ -7,6 +7,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Random;
 
 public class Morph extends JFrame implements ActionListener, MouseListener, MouseMotionListener {
 
@@ -80,15 +81,19 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
 
         Timer animateTimer;
 
-        double t = 0.50;
+        int min = 0;
+        int max = 1;
+        Random rand = new Random();
+
+        double t = min + rand.nextInt(max);
         Animation animate = new Animation(startLattice.points, endLattice.points, t, size);
 
         ActionListener showAnimation = e -> {
 
-            for (int i = 0; i < 1000; i++) {
-                double newT = 0.6;
-                animate.animate(startLattice.points, endLattice.points, newT);
-            }
+            double newT = min + rand.nextInt(max);
+            animate.animate(startLattice.points, endLattice.points, newT);
+
+            revalidate();
             repaint();
         };
         animateTimer = new Timer(5, showAnimation);
