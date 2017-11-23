@@ -13,11 +13,12 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
 
     // Create two frames for the images
     private Lattice startLattice, endLattice;
-    private int size = 10;
+    int size;
 
-    private Morph(){
+    private Morph(int size){
 
         super("Morph");
+        this.size = size;
 
         // Set the Lattice frames and add them to the content pane
         createMenu();
@@ -68,6 +69,18 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
         newMorph.addActionListener(this);
         morph.add(newMorph);
 
+        morph.addSeparator();
+
+        JMenuItem increaseSize = new JMenuItem("Increase Size");
+        increaseSize.setMnemonic('+');
+        increaseSize.addActionListener(this);
+        morph.add(increaseSize);
+
+        JMenuItem decreaseSize = new JMenuItem("Decrease Size");
+        decreaseSize.setMnemonic('-');
+        decreaseSize.addActionListener(this);
+        morph.add(decreaseSize);
+
         bar.add(fileMenu);
         bar.add(morph);
     }
@@ -77,6 +90,39 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
         // Execute action listeners that are created
         if (e.getActionCommand().equals("Exit")) { System.exit(0); }
         else if (e.getActionCommand().equals("Start Morph")) { showAnimateFrame(); }
+
+        else if (e.getActionCommand().equals("Increase Size")){
+
+            System.out.println("Increase");
+            if (size >= 10) {
+                dispose();
+                size += 5;
+
+                System.out.println(size);
+
+                Morph M = new Morph(size);
+                M.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+            }
+        }
+        else if (e.getActionCommand().equals("Decrease Size")){
+
+            System.out.println("Decrease");
+            if (size >= 15) {
+                dispose();
+                size -= 5;
+
+                System.out.println(size);
+
+                Morph M = new Morph(size);
+                M.addWindowListener(new WindowAdapter(){
+                    public void windowClosing(WindowEvent e){System.exit(0);}
+                });
+            }
+        }
     }
 
     private void showAnimateFrame(){
@@ -200,7 +246,9 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
 
     public static void main(String args[]){
 
-        Morph M = new Morph();
+        int size = 10;
+
+        Morph M = new Morph(size);
         M.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){System.exit(0);}
         });

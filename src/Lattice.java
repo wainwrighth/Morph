@@ -31,8 +31,8 @@ class Lattice extends JPanel{
             for (int j = 0; j < size + 1; j++){
 
                 // Calculate the x and y value for where each point should go
-                double x = i * size * 5;
-                double y = j * size * 5;
+                double x = (i * 500) / size;
+                double y = (j * 500) / size;
 
                 // Create that Control point and add it to the array of points
                 controlPoint = new ControlPoint(x, y);
