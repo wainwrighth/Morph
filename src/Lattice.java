@@ -1,7 +1,11 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 class Lattice extends JPanel{
 
@@ -11,6 +15,7 @@ class Lattice extends JPanel{
     private int size;
     boolean draggingControlPoint = false;
     int pointI, pointJ;
+    BufferedImage img = null;
 
     Lattice(int size, MouseListener ML, MouseMotionListener MML){
 
@@ -46,6 +51,8 @@ class Lattice extends JPanel{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
 
+        g.drawImage(img, 0, 0, null);
+
         // Loop through to draw each point
         for (int i = 0; i < size + 1; i++) {
             for (int j = 0; j < size + 1; j++) {
@@ -69,5 +76,19 @@ class Lattice extends JPanel{
 
             }
         }
+    }
+
+    public void setImage(String image){
+        try {
+            img = ImageIO.read(new File(image));
+
+            int width = img.getWidth();
+            int height = img.getHeight();
+            int[][] result = new int[width][height];
+
+            super.removeAll();
+            super.revalidate();
+            super.repaint();
+        }catch (IOException | NullPointerException e){}
     }
 }

@@ -5,6 +5,7 @@
  */
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Random;
@@ -46,12 +47,33 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic('F');
 
+        JFileChooser file1 = new JFileChooser();
+        JFileChooser file2 = new JFileChooser();
+
+        FileNameExtensionFilter filters = new FileNameExtensionFilter("JPEG/JPG, PNG", "jpg", "jpeg", "png");
+        file1.setFileFilter(filters);
+        file2.setFileFilter(filters);
+
         JMenuItem newStartFile = new JMenuItem("New Start Image");
-        newStartFile.setMnemonic('B');
+
+        newStartFile.addActionListener(e -> {
+            int returnVal = file1.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION){
+                startLattice.setImage(file1.getSelectedFile().getPath());
+            }
+        });
+
         fileMenu.add(newStartFile);
 
         JMenuItem newEndFile = new JMenuItem("New End Image");
-        newEndFile.setMnemonic('E');
+
+        newEndFile.addActionListener(e -> {
+            int returnVal = file2.showOpenDialog(null);
+            if (returnVal == JFileChooser.APPROVE_OPTION){
+                endLattice.setImage(file2.getSelectedFile().getPath());
+            }
+        });
+
         fileMenu.add(newEndFile);
 
         fileMenu.addSeparator();
