@@ -3,8 +3,8 @@ import java.awt.*;
 
 class Animation extends JPanel {
 
-    int size;
-    ControlPoint animatedPoints[][];
+    private int size;
+    private ControlPoint animatedPoints[][];
 
     Animation(ControlPoint start[][], ControlPoint end[][], double t, int size){
 

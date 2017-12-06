@@ -15,7 +15,7 @@ class Lattice extends JPanel{
     private int size;
     boolean draggingControlPoint = false;
     int pointI, pointJ;
-    BufferedImage img = null;
+    private BufferedImage img = null;
 
     Lattice(int size, MouseListener ML, MouseMotionListener MML){
 
@@ -78,17 +78,17 @@ class Lattice extends JPanel{
         }
     }
 
-    public void setImage(String image){
+    void setImage(String image){
         try {
             img = ImageIO.read(new File(image));
 
-            int width = img.getWidth();
-            int height = img.getHeight();
-            int[][] result = new int[width][height];
+//            int width = img.getWidth();
+//            int height = img.getHeight();
+//            int[][] result = new int[width][height];
 
             super.removeAll();
             super.revalidate();
             super.repaint();
-        }catch (IOException | NullPointerException e){}
+        }catch (IOException | NullPointerException e){ System.out.println("Error"); }
     }
 }

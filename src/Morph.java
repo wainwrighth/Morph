@@ -14,7 +14,7 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
 
     // Create two frames for the images
     private Lattice startLattice, endLattice;
-    int size;
+    private int size;
 
     private Morph(int size){
 
@@ -33,7 +33,7 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
 
         // Create Frame
         setSize(1010, 550);
-        setResizable(false);
+//        setResizable(false);
         setVisible(true);
     }
 
@@ -54,28 +54,25 @@ public class Morph extends JFrame implements ActionListener, MouseListener, Mous
         file1.setFileFilter(filters);
         file2.setFileFilter(filters);
 
+        // Create new image for start lattice
         JMenuItem newStartFile = new JMenuItem("New Start Image");
-
         newStartFile.addActionListener(e -> {
             int returnVal = file1.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION){
                 startLattice.setImage(file1.getSelectedFile().getPath());
             }
         });
-
         fileMenu.add(newStartFile);
 
+        // Create new image for end lattice
         JMenuItem newEndFile = new JMenuItem("New End Image");
-
         newEndFile.addActionListener(e -> {
             int returnVal = file2.showOpenDialog(null);
             if (returnVal == JFileChooser.APPROVE_OPTION){
                 endLattice.setImage(file2.getSelectedFile().getPath());
             }
         });
-
         fileMenu.add(newEndFile);
-
         fileMenu.addSeparator();
 
         JMenuItem exitMorph = new JMenuItem("Exit");
