@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Line2D;
+
+import static java.lang.StrictMath.ceil;
 
 class Animation extends JPanel {
 
     private int size;
-    private ControlPoint animatedPoints[][];
+    ControlPoint animatedPoints[][];
 
     Animation(ControlPoint start[][], ControlPoint end[][], double t, int size){
 
@@ -28,18 +31,16 @@ class Animation extends JPanel {
                 double x, y;
 
                 // if the points on the start and end lattice dont match, create a new x coordinate
-                if (start[i][j].x != end[i][j].x) {
-                    x = start[i][j].x + (t * (end[i][j].x - start[i][j].x));
+                if (ceil(start[i][j].x) != ceil(end[i][j].x) && ceil(start[i][j].y) != ceil(end[i][j].y)) {
+                    x = ceil(start[i][j].x + (t * (end[i][j].x - start[i][j].x)));
+                    y = ceil(start[i][j].y + (t * (end[i][j].y - start[i][j].y)));
+
                 } else {
-                    x = end[i][j].x;
+                    //System.out.println("points do equal");
+                    x = ceil(end[i][j].x);
+                    y = ceil(end[i][j].y);
                 }
 
-                // if the points on the start and end lattice dont match, create a new y coordinate
-                if (start[i][j].y != end[i][j].y) {
-                    y = start[i][j].y + (t * (end[i][j].y - start[i][j].y));
-                } else {
-                    y = end[i][j].y;
-                }
 
                 // Add the new points to the animated points array
                 this.animatedPoints[i][j] = new ControlPoint(x, y);
@@ -58,6 +59,19 @@ class Animation extends JPanel {
             for (int j = 0; j < size + 1; j++){
 
                 g2d.fill(animatedPoints[i][j]);
+
+                if ((i + 1) < (size + 1) && (j + 1) < (size + 1)){
+                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 2.5, animatedPoints[i][j].y + 2.5,
+                            animatedPoints[i+1][j+1].x + 2.5, animatedPoints[i+1][j+1].y + 2.5));
+                }
+                if ((j + 1) < (size + 1)){
+                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 2.5, animatedPoints[i][j].y + 2.5,
+                            animatedPoints[i][j+1].x + 2.5, animatedPoints[i][j+1].y + 2.5));
+                }
+                if ((i + 1) < (size + 1)){
+                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 2.5, animatedPoints[i][j].y + 2.5,
+                            animatedPoints[i+1][j].x + 2.5, animatedPoints[i+1][j].y + 2.5));
+                }
             }
         }
     }

@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-class Lattice extends JPanel{
+class Lattice extends JPanel implements MouseMotionListener, MouseListener{
 
     // Create a single point and an array of points
     ControlPoint controlPoint;
@@ -17,7 +17,7 @@ class Lattice extends JPanel{
     int pointI, pointJ;
     private BufferedImage img = null;
 
-    Lattice(int size, MouseListener ML, MouseMotionListener MML){
+    Lattice(int size){
 
         // Set the size, panel size, and border of the lattice panel
         this.size = size;
@@ -25,8 +25,8 @@ class Lattice extends JPanel{
         super.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.BLACK));
 
         // Add mouse listeners to the panel
-        super.addMouseListener(ML);
-        super.addMouseMotionListener(MML);
+        super.addMouseListener(this);
+        super.addMouseMotionListener(this);
 
         // Initialize the points array
         points = new ControlPoint[size + 1][size + 1];
@@ -90,5 +90,70 @@ class Lattice extends JPanel{
             super.revalidate();
             super.repaint();
         }catch (IOException | NullPointerException e){ System.out.println("Error"); }
+    }
+
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+        // When the mouse is pressed
+        for (int i = 0; i < size + 1; i++) {
+            for (int j = 0; j < size + 1; j++) {
+
+                // If the point is in the start lattice, get the i and j value of the point
+                if (points[i][j].contains(e.getPoint())) {
+                    draggingControlPoint = true;
+
+                    pointI = i;
+                    pointJ = j;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+        // When the mouse is released, set dragging control point boolean to false
+        draggingControlPoint = false;
+
+        System.out.println(e.getX() + " , " + e.getY());
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+        // When the mouse is dragged, get the source for which panel it was in
+        int CPx, CPy;
+
+        // If the end lattice is being dragged
+        if (draggingControlPoint){
+            CPx = e.getX();
+            CPy = e.getY();
+
+            // Draw and create a new control point with the new x and y value calculated
+            controlPoint = new ControlPoint(CPx, CPy);
+            points[pointI][pointJ] = controlPoint;
+        }
+
+        // Repaint the panel
+        repaint();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 }
