@@ -115,12 +115,10 @@ public class Morph extends JFrame implements ActionListener{
 
         else if (e.getActionCommand().equals("Increase Size")){
 
-            System.out.println("Increase");
+            // If the size is 10 or bigger, increase by 5 when the increase button is clicked
             if (size >= 10) {
                 dispose();
                 size += 5;
-
-                System.out.println(size);
 
                 Morph M = new Morph(size);
                 M.addWindowListener(new WindowAdapter() {
@@ -132,12 +130,10 @@ public class Morph extends JFrame implements ActionListener{
         }
         else if (e.getActionCommand().equals("Decrease Size")){
 
-            System.out.println("Decrease");
+            // If the size is greater than 15 then decrease the size by 5
             if (size >= 15) {
                 dispose();
                 size -= 5;
-
-                System.out.println(size);
 
                 Morph M = new Morph(size);
                 M.addWindowListener(new WindowAdapter(){
@@ -152,6 +148,7 @@ public class Morph extends JFrame implements ActionListener{
         // Create a timer and name the animation frame
         JFrame animateFrame = new JFrame("Animation");
 
+        // Start the animation
         Animation animate = new Animation(startLattice.points, endLattice.points, t, size);
 
         // Start an action listener for the timer to show the animation
@@ -159,8 +156,12 @@ public class Morph extends JFrame implements ActionListener{
 
             same = true;
 
+            // Run nested for loop to go through all the points
             for (int i = 0; i < size; i++){
                 for (int j = 0; j < size; j++){
+
+                    // Check if the x and y points of the animating frame match the end frame
+                    // if they dont equal then set the boolean to false
                     if (!(animate.animatedPoints[i][j].x == endLattice.points[i][j].x &&
                             animate.animatedPoints[i][j].y == endLattice.points[i][j].y)){
 
@@ -169,6 +170,8 @@ public class Morph extends JFrame implements ActionListener{
                 }
             }
 
+            // If the points are the same, stop the timer
+            // Else call animate again with a new t value each time
             if (same){
                 animateTimer.stop();
             }else{
@@ -176,6 +179,7 @@ public class Morph extends JFrame implements ActionListener{
                 animate.animatedPoints = animate.animate(animate.animatedPoints, endLattice.points, t, size);
             }
 
+            // Repaint the Panel
             animate.revalidate();
             animate.repaint();
     };

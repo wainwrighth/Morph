@@ -51,6 +51,7 @@ class Lattice extends JPanel implements MouseMotionListener, MouseListener{
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
 
+        // Draw the image
         g.drawImage(img, 0, 0, null);
 
         // Loop through to draw each point
@@ -78,7 +79,10 @@ class Lattice extends JPanel implements MouseMotionListener, MouseListener{
         }
     }
 
+    // Set the image on each lattice
     void setImage(String image){
+
+        // Read the image and repaint the jpanel if it is successful
         try {
             img = ImageIO.read(new File(image));
 
@@ -116,8 +120,6 @@ class Lattice extends JPanel implements MouseMotionListener, MouseListener{
 
         // When the mouse is released, set dragging control point boolean to false
         draggingControlPoint = false;
-
-        System.out.println(e.getX() + " , " + e.getY());
     }
 
     @Override
