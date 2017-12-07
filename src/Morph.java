@@ -15,9 +15,9 @@ public class Morph extends JFrame implements ActionListener{
     private Lattice startLattice;
     private Lattice endLattice;
     private int size;
-    Timer animateTimer;
-    boolean same;
-    double t = 0.001;
+    private Timer animateTimer;
+    private boolean same;
+    private double t = 0.001;
 
     private Morph(int size){
 
@@ -36,7 +36,6 @@ public class Morph extends JFrame implements ActionListener{
 
         // Create Frame
         setSize(1010, 550);
-//        setResizable(false);
         setVisible(true);
     }
 

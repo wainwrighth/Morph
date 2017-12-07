@@ -10,11 +10,11 @@ import java.io.IOException;
 class Lattice extends JPanel implements MouseMotionListener, MouseListener{
 
     // Create a single point and an array of points
-    ControlPoint controlPoint;
+    private ControlPoint controlPoint;
     ControlPoint points[][];
     private int size;
-    boolean draggingControlPoint = false;
-    int pointI, pointJ;
+    private boolean draggingControlPoint = false;
+    private int pointI, pointJ;
     private BufferedImage img = null;
 
     Lattice(int size){
@@ -63,18 +63,17 @@ class Lattice extends JPanel implements MouseMotionListener, MouseListener{
 
                 // Draw a line from the top left corner to each adjacent point
                 if ((i + 1) < (size + 1)){
-                    g2d.draw(new Line2D.Double(points[i][j].x + 2.5, points[i][j].y + 2.5,
-                                               points[i+1][j].x + 2.5, points[i+1][j].y + 2.5));
+                    g2d.draw(new Line2D.Double(points[i][j].x + 5, points[i][j].y + 5,
+                                               points[i+1][j].x + 5, points[i+1][j].y + 5));
                 }
                 if ((i + 1) < (size + 1) && (j + 1) < (size + 1)){
-                    g2d.draw(new Line2D.Double(points[i][j].x + 2.5, points[i][j].y + 2.5,
-                                               points[i+1][j+1].x + 2.5, points[i+1][j+1].y + 2.5));
+                    g2d.draw(new Line2D.Double(points[i][j].x + 5, points[i][j].y + 5,
+                                               points[i+1][j+1].x + 5, points[i+1][j+1].y + 5));
                 }
                 if ((j + 1) < (size + 1)){
-                    g2d.draw(new Line2D.Double(points[i][j].x + 2.5, points[i][j].y + 2.5,
-                                               points[i][j+1].x + 2.5, points[i][j+1].y + 2.5));
+                    g2d.draw(new Line2D.Double(points[i][j].x + 5, points[i][j].y + 5,
+                                               points[i][j+1].x + 5, points[i][j+1].y + 5));
                 }
-
             }
         }
     }

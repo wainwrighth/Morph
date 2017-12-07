@@ -7,8 +7,8 @@ class ControlPoint extends Ellipse2D.Double {
 
         // Set the height and width of each ellipse and set the x and y values to the
         // ones passed in
-        height = 5;
-        width = 5;
+        height = 10;
+        width = 10;
         this.x = x;
         this.y = y;
     }

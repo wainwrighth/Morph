@@ -62,16 +62,16 @@ class Animation extends JPanel {
 
                 // Draw the new lines as animation is happening
                 if ((i + 1) < (size + 1) && (j + 1) < (size + 1)){
-                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 2.5, animatedPoints[i][j].y + 2.5,
-                            animatedPoints[i+1][j+1].x + 2.5, animatedPoints[i+1][j+1].y + 2.5));
+                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 5, animatedPoints[i][j].y + 5,
+                            animatedPoints[i+1][j+1].x + 5, animatedPoints[i+1][j+1].y + 5));
                 }
                 if ((j + 1) < (size + 1)){
-                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 2.5, animatedPoints[i][j].y + 2.5,
-                            animatedPoints[i][j+1].x + 2.5, animatedPoints[i][j+1].y + 2.5));
+                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 5, animatedPoints[i][j].y + 5,
+                            animatedPoints[i][j+1].x + 5, animatedPoints[i][j+1].y + 5));
                 }
                 if ((i + 1) < (size + 1)){
-                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 2.5, animatedPoints[i][j].y + 2.5,
-                            animatedPoints[i+1][j].x + 2.5, animatedPoints[i+1][j].y + 2.5));
+                    g2d.draw(new Line2D.Double(animatedPoints[i][j].x + 5, animatedPoints[i][j].y + 5,
+                            animatedPoints[i+1][j].x + 5, animatedPoints[i+1][j].y + 5));
                 }
             }
         }
